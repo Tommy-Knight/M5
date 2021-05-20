@@ -34,14 +34,17 @@ blogsRouter.get("/:id", (req, res, next) => {
 	}
 })
 
-blogsRouter.post("/", blogpostValidation, (req, res, next) => {
+blogsRouter.post("/", (req, res, next) => {
 	try {
 		const errors = validationResult(req)
 		if (!errors.isEmpty()) {
 			next(createError(400, { errorList: errors }))
 		} else {
 			const entry = { ...req.body, createdAt: new Date(), id: uniqid() }
+			let blogPosts = JSON.parse(fs.readFileSync(blogpostJSONPath).toString())
 			blogPosts.push(entry)
+			fs.writeFileSync(blogpostJSONPath, JSON.stringify(blogPosts))
+			console.log(`Posted ${entry.title}! Yahoo 🎈`)
 			res.status(201).send(blogPosts.id)
 		}
 	} catch (error) {
@@ -49,15 +52,15 @@ blogsRouter.post("/", blogpostValidation, (req, res, next) => {
 	}
 })
 
-
-blogsRouter.delete("/:id", async (req, res, next) => {
+blogsRouter.delete("/:id", (req, res, next) => {
 	try {
 		let blogPosts = JSON.parse(fs.readFileSync(blogpostJSONPath).toString())
 		const remainingBlogposts = blogPosts.filter(
 			(blogpost) => blogpost.id !== req.params.id
 		)
 		fs.writeFileSync(blogpostJSONPath, JSON.stringify(remainingBlogposts))
-		res.status(204).send("deleted")
+		console.log(`Deleted!🎯`)
+		res.status(204).send(`Deleted!🎯`)
 	} catch (error) {
 		next(error)
 	}

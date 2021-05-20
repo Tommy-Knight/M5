@@ -34,7 +34,7 @@ export default class NewBlogPost extends Component {
 
 	postBlogPost = async () => {
 		try {
-			let res = await fetch("http://localhost:3001/blogPosts", {
+			let res = await fetch("http://localhost:3069/blogs", {
 				method: "POST",
 				headers: {
 					Accept: "application/json",
@@ -50,17 +50,30 @@ export default class NewBlogPost extends Component {
 			console.log(error)
 		}
 	}
+
 	render() {
 		return (
 			<Container className="new-blog-container">
 				<Form className="mt-5">
-					<Form.Group controlId="blog-form" className="mt-3">
+					<Form.Group controlId="title" className="mt-3">
 						<Form.Label>Title</Form.Label>
-						<Form.Control size="lg" placeholder="Title" />
+						<Form.Control
+							size="lg"
+							required
+							placeholder="Title"
+							value={this.state.post.title}
+							onChange={(e) => this.handleChange(e)}
+						/>
 					</Form.Group>
-					<Form.Group controlId="blog-category" className="mt-3">
+					<Form.Group controlId="category" className="mt-3">
 						<Form.Label>Category</Form.Label>
-						<Form.Control size="lg" as="select">
+						<Form.Control
+							size="lg"
+							required
+							as="select"
+							value={this.state.post.category}
+							onChange={(e) => this.handleChange(e)}
+						>
 							<option>Category1</option>
 							<option>Category2</option>
 							<option>Category3</option>
@@ -68,11 +81,12 @@ export default class NewBlogPost extends Component {
 							<option>Category5</option>
 						</Form.Control>
 					</Form.Group>
-					<Form.Group controlId="blog-content" className="mt-3">
+					<Form.Group className="mt-3">
 						<Form.Label>Blog Content</Form.Label>
 						<ReactQuill
-							value={this.state.text}
-							onChange={this.handleChange}
+							id="content"
+							value={this.state.post.content}
+							onChange={(e) => this.handleChange(e)}
 							className="new-blog-content"
 						/>
 					</Form.Group>
