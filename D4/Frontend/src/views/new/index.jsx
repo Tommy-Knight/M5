@@ -31,7 +31,7 @@ export default class NewBlogPost extends Component {
 		e.preventDefault()
 		this.postBlogPost()
 	}
-
+	
 	postBlogPost = async () => {
 		try {
 			let res = await fetch("http://localhost:3069/blogs", {

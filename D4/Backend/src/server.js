@@ -8,7 +8,7 @@ forbiddenErrorHandler,
 catchAllErrorHandler} from "../src/errorHandlers.js"
 
 const server = express()
-const port = 3069
+const { PORT } = process.env
 
 server.use(express.json())
 server.use(cors())
@@ -27,6 +27,8 @@ server.get("/test", (req, res, next) => {
 	res.send({ number })
 })
 
-server.listen(port, () => console.log(`Listening to port: ${port} 🎇`))
+server.listen(PORT, () => console.log(`Listening to port: ${PORT} 🎇`))
 
 server.on("error", (error) => console.log(`Uh oh! ${error}❌`))
+
+
